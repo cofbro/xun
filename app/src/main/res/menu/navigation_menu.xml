@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/homeFragment"
+        android:title="主页"
+        android:icon="@drawable/ic_navigation_home"/>
+    <item
+        android:id="@+id/bookFragment"
+        android:title="预约"
+        android:icon="@drawable/ic_navigation_book"/>
+<!--    <item-->
+<!--        android:id="@+id/jokeFragment"-->
+<!--        android:title="我的"-->
+<!--        android:icon="@drawable/ic_home"/>-->
+</menu>
