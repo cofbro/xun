@@ -1,10 +1,12 @@
 package com.cofbro.hymvvm.lean
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import cn.leancloud.LCObject
 import cn.leancloud.LCUser
 import cn.leancloud.types.LCNull
 import com.cofbro.hymvvm.base.DataState
+import com.cofbro.hymvvm.base.LoadingState
 import com.hjq.toast.ToastUtils
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
@@ -29,13 +31,13 @@ import io.reactivex.disposables.Disposable
 class LeanCloudUtils {
 
     val leanCloudLiveData by lazy {
-        MutableLiveData<DataState>()
+        MutableLiveData<LoadingState>()
     }
 
     companion object {
         private var isUseLeanCloud = false
-        fun init(isUseLeanCloud: Boolean) {
-            this.isUseLeanCloud = isUseLeanCloud
+        fun init(ifUseLeanCloud: Boolean) {
+            this.isUseLeanCloud = ifUseLeanCloud
         }
 
         fun isUsed(): Boolean {
@@ -49,11 +51,11 @@ class LeanCloudUtils {
      * @param result 待储存对象中的参数，如：name = "cofbro"
      * @param onSuccess 成功回调
      */
-    fun <T : Any> LCObject.saveInLC(result: CommResult<T>, onSuccess: (LCObject) -> Unit = {}) {
+    fun <T : Any> LCObject.saveInLC(result: CommResult<T>, msg: String, onSuccess: (LCObject) -> Unit = {}) {
         checkIsUsed()
-        leanCloudLiveData.postValue(DataState.STATE_LOADING)
+        leanCloudLiveData.postValue(LoadingState(null, DataState.STATE_LOADING))
         val todo = iterateAllProperties(this, result)
-        todo.saveInBackground().subscribe(ObserverImpl<LCObject> {
+        todo.saveInBackground().subscribe(ObserverImpl<LCObject>(msg) {
             onSuccess(it)
         })
     }
@@ -71,16 +73,17 @@ class LeanCloudUtils {
         password: String,
         email: String,
         isTeacher: Boolean,
+        msg:String,
         onSuccess: (LCUser) -> Unit = {}
     ) {
         checkIsUsed()
-        leanCloudLiveData.postValue(DataState.STATE_LOADING)
+        leanCloudLiveData.postValue(LoadingState(null, DataState.STATE_LOADING))
         val user = LCUser()
         user.username = username
         user.password = password
         user.email = email
         user.put("isTeacher", isTeacher)
-        user.signUpInBackground().subscribe(ObserverImpl<LCUser> {
+        user.signUpInBackground().subscribe(ObserverImpl<LCUser>(msg) {
             onSuccess(it)
         })
     }
@@ -94,11 +97,12 @@ class LeanCloudUtils {
     fun login(
         username: String,
         password: String,
+        msg:String,
         onSuccess: (LCUser) -> Unit = {}
     ) {
         checkIsUsed()
-        leanCloudLiveData.postValue(DataState.STATE_LOADING)
-        LCUser.logIn(username, password).subscribe(ObserverImpl<LCUser> {
+        leanCloudLiveData.postValue(LoadingState(null, DataState.STATE_LOADING))
+        LCUser.logIn(username, password).subscribe(ObserverImpl<LCUser>(msg) {
             onSuccess(it)
         })
 
@@ -123,10 +127,10 @@ class LeanCloudUtils {
      * @param email 邮箱地址
      * @param onSuccess 成功回调
      */
-    fun resetPassword(email: String, onSuccess: () -> Unit) {
+    fun resetPassword(email: String, msg: String, onSuccess: () -> Unit) {
         checkIsUsed()
-        leanCloudLiveData.postValue(DataState.STATE_LOADING)
-        LCUser.requestPasswordResetInBackground(email).subscribe(ObserverImpl<LCNull> {
+        leanCloudLiveData.postValue(LoadingState(null, DataState.STATE_LOADING))
+        LCUser.requestPasswordResetInBackground(email).subscribe(ObserverImpl<LCNull>(msg) {
             onSuccess()
         })
     }
@@ -166,11 +170,11 @@ class LeanCloudUtils {
      * reactivex.Observer 实现类，防止每次 new 一个匿名内部类
      * @param onSuccess 成功回调
      */
-    inner class ObserverImpl<T : Any>(val onSuccess: (T) -> Unit = {}) : Observer<T> {
+    inner class ObserverImpl<T : Any>(private val msg: String?, val onSuccess: (T) -> Unit = {}) : Observer<T> {
         override fun onSubscribe(d: Disposable) {}
 
         override fun onNext(t: T) {
-            leanCloudLiveData.postValue(DataState.STATE_SUCCESS)
+            leanCloudLiveData.postValue(LoadingState(msg, DataState.STATE_SUCCESS))
             onSuccess(t)
         }
 

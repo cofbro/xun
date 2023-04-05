@@ -13,8 +13,8 @@ abstract class BaseViewModel<T : BaseRepository> : ViewModel() {
         createRepository()
     }
 
-    val leanCloudUtils by lazy {
-        repository.leanCloudUtils
+    val leanCloudLiveData by lazy {
+        repository.leanCloudUtils.leanCloudLiveData
     }
 
     val loadingDataState: LiveData<LoadingState> by lazy {

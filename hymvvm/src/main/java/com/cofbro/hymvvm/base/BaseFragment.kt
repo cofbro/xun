@@ -3,6 +3,7 @@ package com.cofbro.hymvvm.base
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,10 +47,10 @@ abstract class BaseFragment<VM : BaseViewModel<*>, VB : ViewBinding> : Fragment(
             }
         }
         if (LeanCloudUtils.isUsed() && isUsedLeanCloud()) {
-            viewModel.leanCloudUtils.leanCloudLiveData.observe(requireActivity()) {
-                when (it) {
+            viewModel.leanCloudLiveData.observe(requireActivity()) {
+                when (it.state) {
                     DataState.STATE_LOADING ->
-                        showLoading("加载中...")
+                        showLoading(it.msg)
                     else ->
                         dismissLoading()
                 }
@@ -107,7 +108,7 @@ abstract class BaseFragment<VM : BaseViewModel<*>, VB : ViewBinding> : Fragment(
         try {
             val inflate =
                 actualGenericsClass.getDeclaredMethod("inflate", LayoutInflater::class.java)
-            viewBinding = inflate.invoke(null, layoutInflater, container, false) as VB
+            viewBinding = inflate.invoke(null, layoutInflater) as VB
         } catch (e: Exception) {
             e.printStackTrace()
         }

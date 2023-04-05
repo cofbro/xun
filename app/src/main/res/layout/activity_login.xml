@@ -26,7 +26,7 @@
         android:clickable="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        app:hint="Your Username"
+        app:hint="Your Username *"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +38,7 @@
         android:layout_width="0dp"
         android:layout_height="65dp"
         android:layout_marginTop="16dp"
-        app:hint="Your Password"
+        app:hint="Your Password *"
         app:type="password"
         app:layout_constraintEnd_toEndOf="@+id/ip_username"
         app:layout_constraintHorizontal_bias="0.0"
@@ -60,7 +60,7 @@
         android:id="@+id/tv_login"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="36dp"
         android:background="@drawable/app_comm_radius_bg"
         android:gravity="center"
         android:text="登  录"
@@ -82,7 +82,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_login" />
 
     <TextView
-        android:id="@+id/tv_create_noe"
+        android:id="@+id/tv_create_now"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
@@ -100,7 +100,7 @@
         android:background="#ccc"
         app:layout_constraintEnd_toEndOf="@+id/tv_login"
         app:layout_constraintStart_toStartOf="@+id/tv_login"
-        app:layout_constraintTop_toBottomOf="@+id/tv_create_noe" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_create_now" />
 
     <TextView
         android:id="@+id/textView3"
@@ -115,7 +115,7 @@
         app:layout_constraintEnd_toEndOf="@+id/view"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toBottomOf="@+id/tv_create_noe"
+        app:layout_constraintTop_toBottomOf="@+id/tv_create_now"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView

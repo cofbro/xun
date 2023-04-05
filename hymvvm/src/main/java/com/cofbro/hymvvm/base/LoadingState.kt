@@ -5,7 +5,4 @@ package com.cofbro.hymvvm.base
  * @param loadingMsg 加载中的信息
  * @param stateFinish 加载中的状态
  */
-class LoadingState(val loadingMsg: String?, val stateFinish: DataState) {
-    val state: DataState? = null
-    val msg: String? = null
-}
+class LoadingState(val msg: String?, val state: DataState)

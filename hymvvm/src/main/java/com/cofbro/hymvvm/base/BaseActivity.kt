@@ -3,16 +3,14 @@ package com.cofbro.hymvvm.base
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.Window
-import android.view.WindowManager
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import com.cofbro.hymvvm.lean.LeanCloudUtils
 import com.hjq.toast.ToastUtils
 import java.lang.reflect.Modifier
+
 
 /**
  * 1.封装了一层 Activity，我们自己的 Activity 需要继承自 BaseActivity
@@ -50,18 +48,22 @@ abstract class BaseActivity<VM : BaseViewModel<*>, VB : ViewBinding> : AppCompat
         viewModel.loadingDataState.observe(this) {
             when (it.state) {
                 DataState.STATE_LOADING ->
-                    showLoading(it.msg)
+                    showLoading()
                 else ->
-                    dismissLoading()
+                    dismissLoading(it.msg)
             }
         }
         if (LeanCloudUtils.isUsed() && isUseLeanCloud()) {
-            viewModel.leanCloudUtils.leanCloudLiveData.observe(this) {
-                when (it) {
-                    DataState.STATE_LOADING ->
-                        showLoading("加载中...")
+            viewModel.leanCloudLiveData.observe(this) {
+                when (it.state) {
+                    DataState.STATE_LOADING -> {
+                        showLoading()
+                    }
+                    DataState.STATE_SUCCESS -> {
+                        dismissLoading(it.msg)
+                    }
                     else ->
-                        dismissLoading()
+                        dismissLoading(it.msg)
                 }
             }
         }
@@ -78,19 +80,19 @@ abstract class BaseActivity<VM : BaseViewModel<*>, VB : ViewBinding> : AppCompat
     /**
      * 显示请求 loading 中的提示
      */
-    open fun showLoading(msg: String? = null) {
+    open fun showLoading(msg: String? = "请求中") {
         ToastUtils.show(msg)
     }
 
     /**
      * 隐藏 loading 提示
      */
-    open fun dismissLoading() {
-        ToastUtils.show("加载完毕")
+    open fun dismissLoading(msg: String? = "请求完毕") {
+        ToastUtils.show(msg)
     }
 
     open fun isUseLeanCloud(): Boolean {
-        return true;
+        return true
     }
 
     /**
@@ -103,7 +105,8 @@ abstract class BaseActivity<VM : BaseViewModel<*>, VB : ViewBinding> : AppCompat
             ?: throw NullPointerException("Can not find a ViewBinding Generics in ${javaClass.simpleName}")
         var viewBinding: VB? = null
         try {
-            val inflate = actualGenericsClass.getDeclaredMethod("inflate", LayoutInflater::class.java)
+            val inflate =
+                actualGenericsClass.getDeclaredMethod("inflate", LayoutInflater::class.java)
             viewBinding = inflate.invoke(null, layoutInflater) as VB
         } catch (e: Exception) {
             e.printStackTrace()
