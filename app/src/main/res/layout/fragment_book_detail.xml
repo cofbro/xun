@@ -6,49 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="36dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:src="@drawable/ic_book_back_up"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="继续预定"
-            android:textColor="@color/black"
-            android:textSize="21sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.444" />
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/tip" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="0dp"
@@ -56,15 +13,15 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="58dp"
+        android:layout_marginBottom="2dp"
         android:background="@drawable/app_white_big_radius_bg"
-        android:elevation="15dp"
+        android:elevation="5dp"
         android:orientation="vertical"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -95,7 +52,7 @@
                         app:srcCompat="@drawable/home_assess" />
 
                     <TextView
-                        android:id="@+id/textView13"
+                        android:id="@+id/tv_book_detail_teacher_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -107,7 +64,7 @@
                         app:layout_constraintTop_toTopOf="@+id/imageView6" />
 
                     <TextView
-                        android:id="@+id/textView14"
+                        android:id="@+id/tv_book_detail_location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="荣昌校区 7B307"
@@ -141,7 +98,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/textView17"
+                        android:id="@+id/tv_home_detail_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -158,8 +115,8 @@
                         android:layout_marginTop="16dp"
                         android:text="咨询费用"
                         android:textSize="12sp"
-                        app:layout_constraintStart_toStartOf="@+id/textView17"
-                        app:layout_constraintTop_toBottomOf="@+id/textView17" />
+                        app:layout_constraintStart_toStartOf="@+id/tv_home_detail_date"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_home_detail_date" />
 
                     <TextView
                         android:id="@+id/textView23"
@@ -183,7 +140,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/textView23" />
 
                     <TextView
-                        android:id="@+id/textView18"
+                        android:id="@+id/tv_book_detail_remain_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -201,7 +158,7 @@
                         android:background="#cccccc"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView18" />
+                        app:layout_constraintTop_toBottomOf="@+id/tv_book_detail_remain_time" />
 
                     <TextView
                         android:id="@+id/textView19"
@@ -209,7 +166,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:text="选择时间段"
-                        app:layout_constraintStart_toStartOf="@+id/textView18"
+                        app:layout_constraintStart_toStartOf="@+id/tv_book_detail_remain_time"
                         app:layout_constraintTop_toBottomOf="@+id/view3" />
 
                     <TextView
@@ -217,10 +174,10 @@
                         android:layout_width="130dp"
                         android:layout_height="50dp"
                         android:layout_marginTop="24dp"
-                        android:background="@drawable/unselcet_radius_bg"
+                        android:background="@drawable/select_radius_bg"
                         android:gravity="center"
                         android:text="4:00 - 5:00"
-                        android:textColor="#9eafaf"
+                        android:textColor="@color/appColor"
                         app:layout_constraintStart_toStartOf="@+id/textView19"
                         app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
@@ -229,10 +186,10 @@
                         android:layout_width="130dp"
                         android:layout_height="50dp"
                         android:layout_marginEnd="16dp"
-                        android:background="@drawable/select_radius_bg"
+                        android:background="@drawable/unselcet_radius_bg"
                         android:gravity="center"
                         android:text="5:00 - 6:00"
-                        android:textColor="@color/appColor"
+                        android:textColor="#9eafaf"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/tv_book_detail_first_duration" />
 
@@ -254,6 +211,7 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="8dp"
                         app:hint="Your fullName*"
+                        app:hintBackground="#ffffff"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView21" />
@@ -276,6 +234,7 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="8dp"
                         app:hint="Your phoneNumber*"
+                        app:hintBackground="#ffffff"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView22" />

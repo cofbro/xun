@@ -5,7 +5,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
-import android.util.Log
 import com.cofbro.xun.R
 
 import com.cofbro.xun.view.CalendarView.Config.DEFAULT_PADDING
@@ -18,9 +17,6 @@ import com.haibin.calendarview.MonthView
  *
  */
 class CalendarView(context: Context?) : MonthView(context) {
-    private var selectedDay = ""
-    private var selectedMonth = ""
-    private var selectedYear = ""
     object Config {
         const val DEFAULT_PADDING = 8f
     }
@@ -71,9 +67,6 @@ class CalendarView(context: Context?) : MonthView(context) {
         y: Int,
         hasScheme: Boolean
     ): Boolean {
-        selectedDay = calendar.day.toString()
-        selectedMonth = calendar.month.toString()
-        selectedYear = calendar.year.toString()
         //这里绘制选中的日子样式，看需求需不需要继续调用onDrawScheme
         val l = x.toFloat()
         val t = y.toFloat()
@@ -137,8 +130,4 @@ class CalendarView(context: Context?) : MonthView(context) {
         }
 
     }
-
-    fun getSelectDay():String = selectedDay
-    fun getSelectMonth():String = selectedMonth
-    fun getSelectYear():String = selectedYear
 }

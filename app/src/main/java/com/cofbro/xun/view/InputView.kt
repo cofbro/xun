@@ -101,7 +101,6 @@ class InputView : View {
     }
     private val hintBackgroundPaint = Paint().apply {
         style = Paint.Style.FILL_AND_STROKE
-        color = Color.parseColor("#fafafa")
         strokeJoin = Paint.Join.ROUND
         strokeCap = Paint.Cap.ROUND
         isAntiAlias = true
@@ -152,6 +151,7 @@ class InputView : View {
         ) isPasswordType = true
         ifShowBitmap = isPasswordType
         bitmap = createBitmap(R.drawable.ic_eye_close)
+        hintBackgroundPaint.color = typedArray.getColor(R.styleable.InputView_hintBackground, Color.parseColor("#fafafa"))
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -220,7 +220,7 @@ class InputView : View {
         canvas.drawLine(
             l + TEXT_INDENTED,
             t,
-            l + TEXT_INDENTED + 2f,
+            l + TEXT_INDENTED,
             b,
             cursorPaint
         )
@@ -330,7 +330,6 @@ class InputView : View {
             context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
                 ?: return
         im.showSoftInput(this, InputMethodManager.SHOW_FORCED)
-
     }
 
     // 收起软键盘

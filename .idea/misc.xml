@@ -3,28 +3,46 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/exercise/xun/app/src/main/res/drawable/app_border_line.xml" value="0.1945" />
+        <entry key="..\:/exercise/xun/app/src/main/res/drawable/app_comm_bottom_radius_bg.xml" value="0.1545" />
         <entry key="..\:/exercise/xun/app/src/main/res/drawable/app_comm_radius_bg.xml" value="0.1495" />
         <entry key="..\:/exercise/xun/app/src/main/res/drawable/app_comm_raduis_bg.xml" value="0.124" />
         <entry key="..\:/exercise/xun/app/src/main/res/drawable/app_comm_top_radius_bg.xml" value="0.145" />
+        <entry key="..\:/exercise/xun/app/src/main/res/drawable/app_green_circle_bg.xml" value="0.1945" />
         <entry key="..\:/exercise/xun/app/src/main/res/drawable/app_light_radius_bg.xml" value="0.124" />
         <entry key="..\:/exercise/xun/app/src/main/res/drawable/app_white_big_radius_bg.xml" value="0.145" />
         <entry key="..\:/exercise/xun/app/src/main/res/drawable/app_white_bottom_radius_bg.xml" value="0.1495" />
         <entry key="..\:/exercise/xun/app/src/main/res/drawable/app_white_radius_bg.xml" value="0.1495" />
+        <entry key="..\:/exercise/xun/app/src/main/res/drawable/ic_add.xml" value="0.252" />
         <entry key="..\:/exercise/xun/app/src/main/res/drawable/ic_book_back_up.xml" value="0.2075" />
+        <entry key="..\:/exercise/xun/app/src/main/res/drawable/ic_close.xml" value="0.1945" />
         <entry key="..\:/exercise/xun/app/src/main/res/drawable/ic_eye_close.xml" value="0.1045" />
+        <entry key="..\:/exercise/xun/app/src/main/res/drawable/ic_more.xml" value="0.252" />
         <entry key="..\:/exercise/xun/app/src/main/res/drawable/ic_navigation_book.xml" value="0.1495" />
         <entry key="..\:/exercise/xun/app/src/main/res/drawable/ic_navigation_home.xml" value="0.1495" />
+        <entry key="..\:/exercise/xun/app/src/main/res/drawable/ic_profile.xml" value="0.252" />
         <entry key="..\:/exercise/xun/app/src/main/res/drawable/select_border_bg.xml" value="0.1495" />
         <entry key="..\:/exercise/xun/app/src/main/res/drawable/select_radius_bg.xml" value="0.145" />
         <entry key="..\:/exercise/xun/app/src/main/res/drawable/shape_full_tab_indicator.xml" value="0.145" />
         <entry key="..\:/exercise/xun/app/src/main/res/drawable/shape_tab_bg.xml" value="0.145" />
         <entry key="..\:/exercise/xun/app/src/main/res/drawable/unselcet_radius_bg.xml" value="0.145" />
         <entry key="..\:/exercise/xun/app/src/main/res/layout/activity_login.xml" value="0.264" />
-        <entry key="..\:/exercise/xun/app/src/main/res/layout/activity_main.xml" value="0.2453125" />
+        <entry key="..\:/exercise/xun/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/exercise/xun/app/src/main/res/layout/activity_register.xml" value="0.2453125" />
+        <entry key="..\:/exercise/xun/app/src/main/res/layout/album_add_into_layout.xml" value="0.24635416666666668" />
+        <entry key="..\:/exercise/xun/app/src/main/res/layout/album_item_layout.xml" value="0.2" />
+        <entry key="..\:/exercise/xun/app/src/main/res/layout/book_record_item_layout.xml" value="0.2453125" />
+        <entry key="..\:/exercise/xun/app/src/main/res/layout/community_content_img_layout.xml" value="0.2453125" />
+        <entry key="..\:/exercise/xun/app/src/main/res/layout/community_content_item_layout.xml" value="0.2453125" />
         <entry key="..\:/exercise/xun/app/src/main/res/layout/fragment_book.xml" value="0.264" />
         <entry key="..\:/exercise/xun/app/src/main/res/layout/fragment_book_detail.xml" value="0.264" />
+        <entry key="..\:/exercise/xun/app/src/main/res/layout/fragment_book_info.xml" value="0.264" />
+        <entry key="..\:/exercise/xun/app/src/main/res/layout/fragment_book_record.xml" value="0.264" />
+        <entry key="..\:/exercise/xun/app/src/main/res/layout/fragment_book_time.xml" value="0.2453125" />
+        <entry key="..\:/exercise/xun/app/src/main/res/layout/fragment_community.xml" value="0.2" />
         <entry key="..\:/exercise/xun/app/src/main/res/layout/fragment_home.xml" value="0.24635416666666668" />
+        <entry key="..\:/exercise/xun/app/src/main/res/layout/fragment_profile.xml" value="0.2453125" />
+        <entry key="..\:/exercise/xun/app/src/main/res/layout/layout_menu.xml" value="0.24635416666666668" />
         <entry key="..\:/exercise/xun/app/src/main/res/menu/navigation_menu.xml" value="0.24635416666666668" />
       </map>
     </option>

@@ -2,7 +2,9 @@ package com.cofbro.hymvvm.lean
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import cn.leancloud.LCFile
 import cn.leancloud.LCObject
+import cn.leancloud.LCQuery
 import cn.leancloud.LCUser
 import cn.leancloud.types.LCNull
 import com.cofbro.hymvvm.base.DataState
@@ -10,6 +12,9 @@ import com.cofbro.hymvvm.base.LoadingState
 import com.hjq.toast.ToastUtils
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
+import java.util.*
+import kotlin.collections.HashMap
+
 
 /**
  *
@@ -30,6 +35,32 @@ import io.reactivex.disposables.Disposable
  */
 class LeanCloudUtils {
 
+    object LCConstant {
+        // 预定单常量
+        const val TEACHER_NAME = "teacherName"
+        const val STUDENT_NAME = "studentName"
+        const val STUDENT_ID = "studentId"
+        const val REMAIN_TIME = "remainTime"
+        const val TIME = "time"
+        const val PHONE_NUMBER = "phoneNumber"
+        const val LOCATION = "location"
+        const val DATE = "date"
+        const val TYPE = "type"
+
+        // 星球文字
+        const val CONTENT_PLANET = "content"
+        // 星球图url
+        const val IMG_URL_PLANET = "attachments"
+        // 用户名
+        const val USER_NAME_PLANET = "username"
+        // 类名
+        const val BOOKING_INFO_CLASS = "PsychologicalCounseling"
+        const val PLANET_CONTENT_CLASS = "PlanetContent"
+
+        // 是否已经消费
+        const val CHECKED = "checked"
+    }
+
     val leanCloudLiveData by lazy {
         MutableLiveData<LoadingState>()
     }
@@ -48,16 +79,131 @@ class LeanCloudUtils {
 
     /**
      * 储存
-     * @param result 待储存对象中的参数，如：name = "cofbro"
+     * @param className LeanCloud对应的表名称
+     * @param map 待储存对象中的参数，用键值对储存
      * @param onSuccess 成功回调
      */
-    fun <T : Any> LCObject.saveInLC(result: CommResult<T>, msg: String, onSuccess: (LCObject) -> Unit = {}) {
+    fun <T : Any> saveInLC(
+        className: String,
+        map: HashMap<String, T>,
+        msg: String?,
+        onSuccess: (LCObject) -> Unit = {}
+    ) {
         checkIsUsed()
         leanCloudLiveData.postValue(LoadingState(null, DataState.STATE_LOADING))
-        val todo = iterateAllProperties(this, result)
+        val todo = LCObject(className)
+        map.forEach { (t, u) ->
+            todo.put(t, u)
+        }
         todo.saveInBackground().subscribe(ObserverImpl<LCObject>(msg) {
             onSuccess(it)
         })
+    }
+
+    /**
+     * 储存
+     * @param lcObject LeanCloud对应的表对象
+     * @param msg 请求成功展示信息
+     * @param onSuccess 成功回调
+     */
+    fun saveInLC(
+        lcObject: LCObject,
+        msg: String?,
+        onSuccess: (LCObject) -> Unit = {}
+    ) {
+        checkIsUsed()
+        leanCloudLiveData.postValue(LoadingState(null, DataState.STATE_LOADING))
+        lcObject.saveInBackground().subscribe(ObserverImpl<LCObject>(msg) {
+            onSuccess(it)
+        })
+    }
+
+    /**
+     * 查询
+     * @param className LeanCloud对应的表名称
+     * @param equalMap 查询条件
+     * @param msg 请求成功展示信息
+     * @param onSuccess 成功回调
+     */
+    fun searchInLC(
+        className: String,
+        equalMap: HashMap<String, String>?,
+        msg: String?,
+        onSuccess: (List<LCObject>) -> Unit = {}
+    ) {
+        checkIsUsed()
+        leanCloudLiveData.postValue(LoadingState(null, DataState.STATE_LOADING))
+        val todo = LCQuery<LCObject>(className)
+        todo.orderByDescending("createdAt")
+        equalMap?.forEach { (t, u) ->
+            todo.whereEqualTo(t, u)
+        }
+        todo.findInBackground().subscribe(ObserverImpl<List<LCObject>>(msg) {
+            onSuccess(it)
+        })
+    }
+
+    /**
+     * 更新
+     * @param className LeanCloud对应的表名称
+     * @param objectId 更新对象id
+     * @param map 待储存对象中的参数，用键值对储存
+     * @param onSuccess 成功回调
+     */
+    fun updateInLC(
+        className: String,
+        objectId: String,
+        msg: String,
+        map: HashMap<String, String>,
+        onSuccess: (LCObject) -> Unit = {}
+    ) {
+        checkIsUsed()
+        leanCloudLiveData.postValue(LoadingState(null, DataState.STATE_LOADING))
+        val todo = LCObject.createWithoutData(className, objectId)
+        map.forEach { (t, u) ->
+            todo.put(t, u)
+        }
+        todo.saveInBackground().subscribe(ObserverImpl<LCObject>(msg) {
+            onSuccess(it)
+        })
+    }
+
+    /**
+     * 保存
+     * @param filename LeanCloud对应的表名称
+     * @param path 文件的绝对路径
+     * @param msg 附带信息
+     * @param onSuccess 成功回调
+     */
+    fun saveFileInLC(
+        filename: String,
+        path: String,
+        msg: String?,
+        onSuccess: (LCFile) -> Unit = {}
+    ) {
+        val file = LCFile.withAbsoluteLocalPath(filename, path)
+        file.saveInBackground().subscribe(ObserverImpl<LCFile>(msg) {
+            Log.d("chy", "saveFileInLC: file-> ${it.url}")
+            onSuccess(it)
+        })
+    }
+
+
+    /**
+     *  将文件进行关联
+     * @param className LeanCloud对应的表名称
+     * @param files 待关联的文件
+     * @param map 待上传的参数
+     */
+    fun attachOn(className: String, files: List<LCFile>, map: HashMap<String, String>) {
+        val todo = LCObject(className)
+        map.forEach { (t, u) ->
+            todo.put(t, u)
+        }
+        files.forEach {
+            todo.add("attachments", it)
+        }
+        todo.save()
     }
 
     /**
@@ -73,7 +219,7 @@ class LeanCloudUtils {
         password: String,
         email: String,
         isTeacher: Boolean,
-        msg:String,
+        msg: String,
         onSuccess: (LCUser) -> Unit = {}
     ) {
         checkIsUsed()
@@ -97,7 +243,7 @@ class LeanCloudUtils {
     fun login(
         username: String,
         password: String,
-        msg:String,
+        msg: String,
         onSuccess: (LCUser) -> Unit = {}
     ) {
         checkIsUsed()
@@ -170,10 +316,12 @@ class LeanCloudUtils {
      * reactivex.Observer 实现类，防止每次 new 一个匿名内部类
      * @param onSuccess 成功回调
      */
-    inner class ObserverImpl<T : Any>(private val msg: String?, val onSuccess: (T) -> Unit = {}) : Observer<T> {
+    inner class ObserverImpl<T : Any>(private val msg: String?, val onSuccess: (T) -> Unit = {}) :
+        Observer<T> {
         override fun onSubscribe(d: Disposable) {}
 
         override fun onNext(t: T) {
+            Log.d("chy", "post")
             leanCloudLiveData.postValue(LoadingState(msg, DataState.STATE_SUCCESS))
             onSuccess(t)
         }

@@ -43,16 +43,19 @@ abstract class BaseFragment<VM : BaseViewModel<*>, VB : ViewBinding> : Fragment(
                 DataState.STATE_LOADING ->
                     showLoading(it.msg)
                 else ->
-                    dismissLoading()
+                    dismissLoading(it.msg)
             }
         }
         if (LeanCloudUtils.isUsed() && isUsedLeanCloud()) {
             viewModel.leanCloudLiveData.observe(requireActivity()) {
                 when (it.state) {
+                    DataState.STATE_INITIALIZE -> {}
                     DataState.STATE_LOADING ->
                         showLoading(it.msg)
-                    else ->
-                        dismissLoading()
+                    DataState.STATE_SUCCESS -> {
+                        dismissLoading(it.msg)
+                    }
+                    else -> {}
                 }
             }
         }
@@ -71,6 +74,11 @@ abstract class BaseFragment<VM : BaseViewModel<*>, VB : ViewBinding> : Fragment(
         mContext = null
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.leanCloudLiveData.value = LoadingState(null, DataState.STATE_INITIALIZE)
+    }
+
     /**
      *  当onCreate方法执行完毕前就会执行此方法，相当于暴露给用户的<var>onViewCreated</var>
      *  @param  savedInstanceState savedInstanceState
@@ -82,14 +90,14 @@ abstract class BaseFragment<VM : BaseViewModel<*>, VB : ViewBinding> : Fragment(
      * 显示请求 loading 中的提示
      */
     open fun showLoading(msg: String? = null) {
-        ToastUtils.show("showLoading")
+        ToastUtils.show("请求中")
     }
 
     /**
      * 隐藏 loading 提示
      */
-    open fun dismissLoading() {
-        ToastUtils.show("hideLoading")
+    open fun dismissLoading(msg: String? = null) {
+        ToastUtils.show(msg)
     }
 
     open fun isUsedLeanCloud(): Boolean {

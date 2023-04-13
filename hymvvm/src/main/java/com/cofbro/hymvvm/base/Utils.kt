@@ -24,12 +24,18 @@ internal fun <T> Any.findActualGenericsClass(cls: Class<*>): Class<T>? {
     return null
 }
 
+
+const val SP_USER_NAME = "username"
+const val SP_PASSWORD = "password"
+const val SP_USER_ID = "userId"
+const val SP_EMAIL = "email"
+
 fun Context.saveUsedSp(key: String, value: String) {
     val editor = getSharedPreferences("sp_data", Context.MODE_PRIVATE).edit()
     editor.putString(key, value).apply()
 }
 
-fun Context.getBySp(key: String) {
+fun Context.getBySp(key: String): String? {
     val sp = getSharedPreferences("sp_data", Context.MODE_PRIVATE)
-    sp.getString(key, "")
+    return sp.getString(key, "")
 }

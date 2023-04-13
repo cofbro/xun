@@ -10,7 +10,7 @@ class LoginViewModel : BaseViewModel<LoginRepository>() {
     fun login(
         username: String, password: String, msg: String, onSuccess: (LCUser) -> Unit
     ) {
-        repository.leanCloudUtils.login(username, password, msg, onSuccess)
+        repository.login(username, password, msg, onSuccess)
     }
 
     fun toRegister(activity: LoginActivity) {

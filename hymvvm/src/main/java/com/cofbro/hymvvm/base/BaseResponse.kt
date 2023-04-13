@@ -29,6 +29,7 @@ class BaseResponse<T>(
  * @property STATE_FINISH 请求结束
  */
 enum class DataState {
+    STATE_INITIALIZE,
     STATE_LOADING,
     STATE_SUCCESS,
     STATE_EMPTY,

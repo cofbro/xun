@@ -14,7 +14,7 @@ abstract class BaseViewModel<T : BaseRepository> : ViewModel() {
     }
 
     val leanCloudLiveData by lazy {
-        repository.leanCloudUtils.leanCloudLiveData
+        repository.leanCloudLiveData
     }
 
     val loadingDataState: LiveData<LoadingState> by lazy {

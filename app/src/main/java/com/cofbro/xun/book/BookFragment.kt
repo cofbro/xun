@@ -1,89 +1,41 @@
 package com.cofbro.xun.book
 
 import android.os.Bundle
-import android.util.Log
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.fragment.findNavController
 import com.cofbro.hymvvm.base.BaseFragment
 import com.cofbro.xun.R
 import com.cofbro.xun.databinding.FragmentBookBinding
-import com.haibin.calendarview.Calendar
-import com.haibin.calendarview.CalendarView
-import com.hjq.toast.ToastUtils
-import java.util.Calendar.DATE
+import com.cofbro.xun.findViews
 
 class BookFragment : BaseFragment<BookViewModel, FragmentBookBinding>() {
+    private lateinit var group: List<View>
     override fun onAllViewCreated(savedInstanceState: Bundle?) {
-        setInterceptOnCalendar()
-        bindViewWithTime()
-        binding!!.tvHomeNextStep.setOnClickListener {
-            findNavController().navigate(R.id.action_bookFragment_to_bookDetailFragment)
-        }
-
-
+        initView()
+        initEvent()
     }
 
-    private fun bindViewWithTime() {
-        val map = HashMap<String, Calendar>()
-        val calendar = Calendar()
-        calendar.apply {
-            year = 2023
-            month = 4
-            day = 10
+    private fun initView() {
+        group = requireActivity().findViews()
+        group[0].setBackgroundColor(resources.getColor(R.color.statusBarColor, null))
+        (group[1] as ImageView).setImageResource(R.drawable.ic_more)
+        (group[2] as TextView).text = "选择老师"
+    }
+
+    private fun initEvent() {
+        binding!!.csBookFragmentTeacher.setOnClickListener {
+            val action =
+                BookFragmentDirections.actionBookFragmentToBookTimeFragment(binding!!.tvBookTeacherName.text.toString())
+            findNavController().navigate(action)
         }
-        map[calendar.toString()] = calendar
-        binding!!.calendarView.setSchemeDate(map)
-        binding!!.calendarView.setOnMonthChangeListener { year, month ->
-            val string = year.toString() + "年" + month.toString() + "月"
-            binding!!.tvBookTime.text = string
+        group[1].setOnClickListener {
+            (group[4] as DrawerLayout).openDrawer(GravityCompat.START)
         }
     }
 
-    private fun setInterceptOnCalendar() {
-        binding!!.calendarView.setOnCalendarInterceptListener(object :
-            CalendarView.OnCalendarInterceptListener {
-            override fun onCalendarIntercept(calendar: Calendar): Boolean {
-                val currentDay = binding!!.calendarView.curDay
-                val currentMonth = binding!!.calendarView.curMonth
-                return calendar.isWeekend || judgmentIfValid(
-                    currentDay,
-                    currentMonth,
-                    calendar.day,
-                    calendar.month
-                )
-            }
 
-            override fun onCalendarInterceptClick(calendar: Calendar?, isClick: Boolean) {
-                if (calendar!!.isWeekend) {
-                    ToastUtils.show("哥们儿周末和同学出去玩，啥烦心事儿都能解决！")
-                } else ToastUtils.show("只能从最近14天中选择哦~")
-
-            }
-        })
-    }
-
-    private fun judgmentIfValid(
-        currentDay: Int,
-        currentMonth: Int,
-        selectDay: Int,
-        selectMonth: Int
-    ): Boolean {
-        if (currentMonth == selectMonth) {
-            if (currentDay + 14 >= selectDay) return false
-        } else {
-            if (currentMonth > selectMonth) return true
-            if (currentDay + 14 <= getCurrentMonthLastDay()) {
-                return true
-            } else {
-                if ((currentDay + 14) % getCurrentMonthLastDay() >= selectDay) return false
-            }
-        }
-        return true
-    }
-
-    private fun getCurrentMonthLastDay(): Int {
-        val a = java.util.Calendar.getInstance()
-        a.set(DATE, 1)
-        a.roll(DATE, -1)
-        return a.get(DATE)
-    }
 }

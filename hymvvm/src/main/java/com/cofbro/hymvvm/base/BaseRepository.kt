@@ -14,7 +14,11 @@ open class BaseRepository {
         MutableLiveData<LoadingState>()
     }
 
-    val leanCloudUtils by lazy {
+    val leanCloudLiveData by lazy {
+        leanCloudUtils.leanCloudLiveData
+    }
+
+    protected val leanCloudUtils by lazy {
         LeanCloudUtils()
     }
 
@@ -58,6 +62,9 @@ open class BaseRepository {
         }
     }
 
+    fun executeLCRequest(block: () -> Unit) {
+        block()
+    }
 
     private fun <T> isEmptyData(data: T?): Boolean {
         return data == null || data is List<*> && (data as List<*>).isEmpty()

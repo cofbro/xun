@@ -1,10 +1,13 @@
 package com.cofbro.xun.register
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.cofbro.hymvvm.base.BaseActivity
 import com.cofbro.xun.R
 import com.cofbro.xun.databinding.ActivityRegisterBinding
+import com.cofbro.xun.login.LoginActivity
+import com.cofbro.xun.main.MainActivity
 import com.hjq.toast.ToastUtils
 
 class RegisterActivity : BaseActivity<RegisterViewModel, ActivityRegisterBinding>() {
@@ -32,6 +35,8 @@ class RegisterActivity : BaseActivity<RegisterViewModel, ActivityRegisterBinding
                 if (username.isNotEmpty() && password.isNotEmpty() && email.isNotEmpty()) {
                     viewModel.register(username, password, email, ifTeacher!!, "请注意邮箱点击验证") {
                         // 前往主页
+                        toMainActivity()
+                        finish()
                     }
                 } else {
                     ToastUtils.show("请将信息补充完整！")
@@ -51,4 +56,8 @@ class RegisterActivity : BaseActivity<RegisterViewModel, ActivityRegisterBinding
         view.background = resources.getDrawable(R.drawable.select_border_bg, null)
     }
 
+    private fun toMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+    }
 }
